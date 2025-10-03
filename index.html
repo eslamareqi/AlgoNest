@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌐AlgoNest - منصة الذكاء الاصطناعي والبرمجة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --secondary: #6c757d;
+            --success: #198754;
+            --info: #0dcaf0;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --bg-color: #f4f7f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --header-bg: #0d6efd;
+            --nav-bg: #ffffff;
+            --footer-bg: #0d6efd;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --whatsapp: #25D366;
+            --telegram: #0088cc;
+            --instagram: #E1306C;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f8f9fa;
+            --card-bg: #2d2d2d;
+            --header-bg: #0a3d7a;
+            --nav-bg: #2d2d2d;
+            --footer-bg: #0a3d7a;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* زر الوضع الليلي */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--text-color);
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* الهيدر المصغر */
+        header {
+            background: linear-gradient(135deg, var(--header-bg) 0%, #0a58ca 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .compact-title-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInDown 1s forwards;
+            position: relative;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInDown 1s 0.3s forwards;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        /* القائمة الأفقية المحسنة */
+        nav {
+            display: flex;
+            justify-content: center;
+            background: var(--nav-bg);
+            box-shadow: 0 4px 12px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0 20px;
+        }
+
+        nav a {
+            padding: 18px 25px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background: rgba(13, 110, 253, 0.05);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        section {
+            padding: 70px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-in-out;
+        }
+
+        section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title-box {
+            background: var(--card-bg);
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--shadow);
+            max-width: 500px;
+            margin: 0 auto 50px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+            border-right: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--info), var(--primary));
+        }
+
+        section h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            flex: 1 1 300px;
+            box-shadow: 0 6px 18px var(--shadow);
+            transition: all 0.4s ease;
+            border-top: 3px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.03) 0%, rgba(13, 110, 253, 0.1) 100%);
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px var(--shadow);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-size: 1.4rem;
+            position: relative;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: var(--text-color);
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* تصميم قسم الانتظار */
+        .coming-soon-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #0a58ca 100%);
+            color: white;
+            padding: 60px 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 40px auto;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coming-soon-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .coming-soon-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .coming-soon-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .coming-soon-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        /* تصميم قسم المطور الموحد */
+        .developer-section {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            border-right: 4px solid var(--primary);
+            text-align: center;
+        }
+
+        .developer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--info), var(--primary));
+        }
+
+        .developer-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.2rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .developer-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .developer-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .developer-name h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .developer-bio {
+            background: rgba(13, 110, 253, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-right: 3px solid var(--primary);
+            margin-top: 20px;
+        }
+
+        .developer-bio p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .contact-footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .contact-footer a:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 12px var(--shadow);
+        }
+
+        .whatsapp {
+            background: var(--whatsapp);
+        }
+
+        .telegram {
+            background: var(--telegram);
+        }
+
+        .instagram {
+            background: var(--instagram);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, var(--footer-bg) 0%, #0a58ca 100%);
+            color: white;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            text-decoration: none;
+            box-shadow: 0 3px 10px var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #0a58ca;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .compact-title-box {
+                padding: 15px;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                padding: 0 10px;
+            }
+            
+            nav a {
+                padding: 15px 20px;
+                font-size: 0.95rem;
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+            
+            .developer-section {
+                padding: 30px 20px;
+            }
+            
+            .developer-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 1.8rem;
+            }
+            
+            .developer-name h3 {
+                font-size: 1.5rem;
+            }
+            
+            section {
+                padding: 50px 15px;
+            }
+            
+            .section-title-box {
+                margin-bottom: 40px;
+            }
+            
+            .coming-soon-section {
+                padding: 40px 20px;
+            }
+            
+            .coming-soon-content h2 {
+                font-size: 2rem;
+            }
+            
+            .coming-soon-content p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav a {
+                min-width: 100px;
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .developer-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* تأثيرات إضافية */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- زر تبديل الوضع الليلي -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <header>
+        <div class="compact-title-box">
+            <h1>🌐 AlgoNest</h1>
+            <p>منصة تعليمية تفاعلية للذكاء الاصطناعي والبرمجة، تهدف لتبسيط المفاهيم التقنية للزوار بمستويات مختلفة.</p>
+        </div>
+    </header>
+
+    <!-- القائمة الأفقية المحسنة -->
+    <nav>
+        <a href="#content">المحتوى التعليمي</a>
+        <a href="#about">عن المنصة</a>
+        <a href="#developer">المطور</a>
+        <a href="#contact">تواصل معنا</a>
+    </nav>
+
+    <!-- قسم المحتوى التعليمي (الأول) -->
+    <section id="content">
+        <div class="section-title-box">
+            <h2>المحتوى التعليمي</h2>
+        </div>
+        <div class="content">
+            <div class="card">
+                <h3>دروس البرمجة</h3>
+                <p>تعلم أساسيات البرمجة خطوة بخطوة، من المفاهيم الأساسية إلى التقنيات المتقدمة. يشمل المسار التعليمي هياكل البيانات، الخوارزميات، البرمجة الكائنية، وتطوير التطبيقات بمختلف لغات البرمجة.</p>
+            </div>
+            <div class="card">
+                <h3>مشاريع الذكاء الاصطناعي</h3>
+                <p>مشاريع عملية في الذكاء الاصطناعي مثل تحليل البيانات، التعلم الآلي، التعرف على الصور والنصوص، والشبكات العصبية. تطبيقات عملية تمكنك من بناء أنظمة ذكية تحاكي القدرات البشرية.</p>
+            </div>
+            <div class="card">
+                <h3>إنشاء فيديوهات بالذكاء الاصطناعي</h3>
+                <p>كيف تكون صانع محتوى ناجح باستخدام أدوات الذكاء الاصطناعي. تعلم تقنيات إنشاء الفيديوهات، التحرير الآلي، توليد النصوص والصوت، وأسرار النجاح في عالم المحتوى الرقمي.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الانتظار -->
+    <section id="about">
+        <div class="coming-soon-section">
+            <div class="coming-soon-content">
+                <h2>🎯 انتظرونا في الانطلاق الكبير</h2>
+                <p>هذا الموقع سيشارك معكم تطبيقات وأدوات ذكاء اصطناعي مذهلة، ودورات تعليمية كاملة تغطي أحدث التقنيات والمواهب الرقمية. استعدوا لرحلة استثنائية في عالم البرمجة والذكاء الاصطناعي!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المطور الموحد -->
+    <section id="developer">
+        <div class="developer-section">
+            <div class="developer-avatar">
+                <i class="fas fa-code"></i>
+            </div>
+            <div class="developer-name">
+                <h3>إسلام عبدالله العريقي</h3>
+            </div>
+            <div class="developer-bio">
+                <p>مطور ويب محترف يمتلك خبرة في تطوير حلول برمجية مبتكرة تلبي احتياجات المستخدمين في العصر الرقمي، مع التركيز على تجربة المستخدم والأداء المتميز.</p>
+            </div>
+            <div class="contact-footer">
+                <a href="https://wa.me/967735768185" target="_blank" title="WhatsApp" class="whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://t.me/Eslamareqi" target="_blank" title="Telegram" class="telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://instagram.com/enel1z" target="_blank" title="Instagram" class="instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>&copy; 2025 🌐 AlgoNest | جميع الحقوق محفوظة</p>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // تبديل الوضع الليلي
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // التحقق من التفضيل المحفوظ
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // Animation on scroll
+        const sections = document.querySelectorAll('section');
+        const backToTop = document.getElementById('backToTop');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Back to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // إضافة تأثير pulse للعنوان الرئيسي
+        const titleBox = document.querySelector('.compact-title-box');
+        setInterval(() => {
+            titleBox.classList.add('pulse');
+            setTimeout(() => {
+                titleBox.classList.remove('pulse');
+            }, 2000);
+        }, 8000);
+    </script>
+
+</body>
+</html>
